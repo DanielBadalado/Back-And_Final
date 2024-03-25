@@ -5,7 +5,7 @@ const mysql = require('mysql2/promise');
 require('dotenv').config();
 
 const app = express();
-const port = 4001; // Alteração da porta para 4000
+const port = 3090; 
 
 const dbConfig = {
   host: process.env.DB_HOST,
@@ -18,22 +18,32 @@ app.get('/', (req, res) => {
   res.send('Bem Vindo a minha Aplicação!');
 });
 
-app.get('/clientes', (req, res) => {
-    const clientes = clientesController.getAllClientes();
+app.get('/clientes', async (req, res) => {
+  try {
+    const clientes = await clientesController.getAllClientes();
     res.json(clientes);
-  });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erro ao obter clientes' });
+  }
+});
 
-app.get('/produtos', (req, res) => {
-    const produtos = produtosController.getAllProdutos();
+app.get('/produtos', async (req, res) => {
+  try {
+    const produtos = await produtosController.getAllProdutos();
     res.json(produtos);
-  });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erro ao obter produtos' });
+  }
+});
 
 (async () => {
   try {
     await mysql.createConnection(dbConfig);
     console.log('Connected to MySQL database');
     
-    // Inicie o servidor apenas se a conexão com o banco de dados for bem-sucedida
+  
     app.listen(port, () => {
       console.log(`Server running at http://localhost:${port}`);
     });

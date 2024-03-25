@@ -35,14 +35,15 @@ const createProdutosTable = async () => {
 
 // Crie as tabelas apenas se elas não existirem
 const createTables = async () => {
-    await createClientesTable();
-    await createProdutosTable();
+    try {
+        await createClientesTable();
+        await createProdutosTable();
+        console.log('Tabelas criadas com sucesso.');
+    } catch (err) {
+        console.error('Erro ao criar as tabelas:', err);
+    } finally {
+        pool.end(); // Encerra a conexão com o banco de dados
+    }
 };
 
-createTables().then(() => {
-    console.log('Tabelas criadas com sucesso.');
-    pool.end(); // Encerra a conexão com o banco de dados
-}).catch((err) => {
-    console.error('Erro ao criar as tabelas:', err);
-    pool.end(); // Encerra a conexão com o banco de dados
-});
+createTables();
