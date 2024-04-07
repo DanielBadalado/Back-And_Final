@@ -1,8 +1,9 @@
+require('dotenv').config();
 const clientesController = require('./controllers/clientesController');
 const produtosController = require('./controllers/produtosController');
 const express = require('express');
 const mysql = require('mysql2/promise');
-require('dotenv').config();
+
 
 const app = express();
 const port = 3090; 
