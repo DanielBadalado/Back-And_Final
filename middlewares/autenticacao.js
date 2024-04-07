@@ -3,13 +3,13 @@ const authMiddleware = (req, res, next) => {
     const isAuthenticated = true; // verificar se existe um token de autenticação válido
   
     if (!isAuthenticated) {
-      return res.status(401).json({ message: 'Unauthorized' });
+        return res.status(401).json({ message: 'Unauthorized' });
     }
   
     next();
-  };
+};
   
-  module.exports = {
+module.exports = {
     authMiddleware
-  };
+};
   
