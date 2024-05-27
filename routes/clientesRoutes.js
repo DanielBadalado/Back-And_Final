@@ -1,8 +1,8 @@
 // clientesRoutes.js
 const express = require('express');
 const router = express.Router();
-const { authMiddleware } = require('../middlewares/autenticacao');
-const { validateFields } = require('../middlewares/validarCampos');
+const { authMiddleware } = require('../middlewares/authMiddleware');
+const { validateFields } = require('../middlewares/validateFields');
 const { getAllClientes, getClienteById, createCliente, updateCliente, deleteCliente } = require('../controllers/clientesController');
 
 router.use(authMiddleware);

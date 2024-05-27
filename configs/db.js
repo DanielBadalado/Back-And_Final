@@ -41,9 +41,9 @@ const createTables = async () => {
         console.log('Tabelas criadas com sucesso.');
     } catch (err) {
         console.error('Erro ao criar as tabelas:', err);
-    } finally {
-        pool.end(); // Encerra a conexão com o banco de dados
     }
 };
 
 createTables();
+
+module.exports = pool;

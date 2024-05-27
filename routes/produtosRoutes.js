@@ -1,8 +1,8 @@
 // produtosRoutes.js
 const express = require('express');
 const router = express.Router();
-const { authMiddleware } = require('../middlewares/autenticacao');
-const { validateFields } = require('../middlewares/validarCampos');
+const { authMiddleware } = require('../middlewares/authMiddleware');
+const { validateFields } = require('../middlewares/validateFields');
 const { getAllProdutos, getProdutoById, createProduto, updateProduto, deleteProduto } = require('../controllers/produtosController');
 
 router.use(authMiddleware);

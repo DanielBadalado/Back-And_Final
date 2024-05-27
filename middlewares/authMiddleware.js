@@ -1,6 +1,6 @@
 const authMiddleware = (req, res, next) => {
-    // Lógica para verificar se o usuário está autenticado
-    const isAuthenticated = true; // verificar se existe um token de autenticação válido
+    // Aqui você deve implementar a lógica de verificação de autenticação
+    const isAuthenticated = true; // Exemplo: verificar se existe um token válido
   
     if (!isAuthenticated) {
         return res.status(401).json({ message: 'Unauthorized' });
@@ -12,4 +12,3 @@ const authMiddleware = (req, res, next) => {
 module.exports = {
     authMiddleware
 };
-  
