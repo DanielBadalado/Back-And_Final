@@ -3,16 +3,37 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const clientesController = require('./controllers/clientesController');
 const produtosController = require('./controllers/produtosController');
+const NodeCache = require('node-cache');
 
 const app = express();
-const port = 3090;
+const port = 3000; // Porta do servidor
 
 const dbConfig = {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
 };
+
+// Criar uma nova instância de cache
+const cache = new NodeCache();
+
+// Adicionar um item ao cache com uma chave e um valor
+cache.set('chave', 'valor');
+
+// Obter o valor do cache com a chave
+const valor = cache.get('chave');
+console.log('Valor do cache:', valor);
+
+// 60 segundos de tempo de vida
+cache.set('chave2', 'valor2', 60);
+
+// Remove item do Cache
+cache.del('chave');
+
+// Apaga todo o Caching
+cache.flushAll();
 
 // Middleware para parsing de JSON
 app.use(express.json());

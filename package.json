@@ -1,7 +1,7 @@
 {
-  "name": "desafioexpressmysql",
+  "name": "desafio_complexo_beii",
   "version": "1.0.0",
-  "description": "Projeto Node.js com MySQL",
+  "description": "Projeto Final de Back-End-II",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -12,18 +12,23 @@
     "cookie-parser": "^1.4.5",
     "debug": "^4.3.2",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1",
+    "express": "^4.19.2",
     "express-validator": "^7.0.1",
-    "http-errors": "^1.8.0",
+    "http-errors": "^1.8.1",
     "jade": "^0.29.0",
+    "jest": "^29.7.0",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "mysql2": "^2.3.0"
+    "mysql2": "^3.10.1",
+    "node-cache": "^5.1.2",
+    "supertest": "^7.0.0"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
     "eslint-config-google": "^0.14.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^3.1.1"
   },
-  "author": "Willian",
-  "license": "MIT"
+  "author": "DanielJunior",
+  "license": "MIT",
+  "keywords": []
 }
