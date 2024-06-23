@@ -1,55 +1,52 @@
-const produtosService = require('../services/produtosService');
+const pool = require('../db');
 
-exports.getAll = async (req, res) => {
+// Obter todos os produtos
+exports.getAll = async (req, res, next) => {
     try {
-        const produtos = await produtosService.getAll();
-        if (!produtos || produtos.length === 0) {
-            return res.status(404).json({ message: 'Nenhum produto encontrado' });
-        }
-        res.json(produtos);
+        const [rows] = await pool.query('SELECT * FROM produtos');
+        res.json(rows);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Algo deu errado!' });
+        next(err);
     }
 };
 
+// Obter produto por ID
 exports.getById = async (req, res, next) => {
-    const id = parseInt(req.params.id);
     try {
-        const produto = await produtosService.getById(id);
-        res.json(produto);
+        const [rows] = await pool.query('SELECT * FROM produtos WHERE id = ?', [req.params.id]);
+        res.json(rows[0]);
     } catch (err) {
         next(err);
     }
 };
 
-exports.create = async (req, res) => {
-    const { nome, descricao, preco, data_atualizado } = req.body;
+// Criar novo produto
+exports.create = async (req, res, next) => {
     try {
-        await produtosService.create(nome, descricao, preco, data_atualizado);
-        res.send('Produto criado com sucesso');
+        const { nome, descricao, preco, data_atualizado } = req.body;
+        const [result] = await pool.query('INSERT INTO produtos (nome, descricao, preco, data_atualizado) VALUES (?, ?, ?, ?)', [nome, descricao, preco, data_atualizado]);
+        res.status(201).json({ id: result.insertId });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erro ao criar produto' });
+        next(err);
     }
 };
 
+// Atualizar produto
 exports.update = async (req, res, next) => {
-    const id = parseInt(req.params.id);
-    const { nome, descricao, preco, data_atualizado } = req.body;
     try {
-        await produtosService.update(id, nome, descricao, preco, data_atualizado);
-        res.send('Produto atualizado com sucesso');
+        const { nome, descricao, preco, data_atualizado } = req.body;
+        await pool.query('UPDATE produtos SET nome = ?, descricao = ?, preco = ?, data_atualizado = ? WHERE id = ?', [nome, descricao, preco, data_atualizado, req.params.id]);
+        res.sendStatus(204);
     } catch (err) {
         next(err);
     }
 };
 
-exports.remove = async (req, res, next) => {
-    const id = parseInt(req.params.id);
+// Deletar produto
+exports.delete = async (req, res, next) => {
     try {
-        await produtosService.remove(id);
-        res.send('Produto removido com sucesso');
+        await pool.query('DELETE FROM produtos WHERE id = ?', [req.params.id]);
+        res.sendStatus(204);
     } catch (err) {
         next(err);
     }

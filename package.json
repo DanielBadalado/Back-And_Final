@@ -1,13 +1,13 @@
 {
-  "name": "desafio_complexo_beii",
-  "version": "1.0.0",
-  "description": "Projeto Final de Back-End-II",
-  "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
     "lint": "eslint ."
   },
+  "name": "desafio_complexo_beii",
+  "version": "1.0.0",
+  "description": "Projeto Final de Back-End-II",
+  "main": "index.js",
   "dependencies": {
     "cookie-parser": "^1.4.5",
     "debug": "^4.3.2",

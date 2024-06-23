@@ -1,56 +1,53 @@
-const clientesService = require('../services/clientesService');
+const pool = require('../db');
 
-exports.getAll = async (req, res) => {
+// Obter todos os clientes
+exports.getAll = async (req, res, next) => {
     try {
-        const clientes = await clientesService.getAll();
-        res.json(clientes);
+        const [rows] = await pool.query('SELECT * FROM clientes');
+        res.json(rows);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erro ao obter clientes' });
+        next(err);
     }
 };
 
-exports.getById = async (req, res) => {
-    const id = parseInt(req.params.id);
+// Obter cliente por ID
+exports.getById = async (req, res, next) => {
     try {
-        const cliente = await clientesService.getById(id);
-        res.json(cliente);
+        const [rows] = await pool.query('SELECT * FROM clientes WHERE id = ?', [req.params.id]);
+        res.json(rows[0]);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erro ao obter cliente' });
+        next(err);
     }
 };
 
-exports.create = async (req, res) => {
-    const { nome, sobrenome, email, idade } = req.body;
+// Criar novo cliente
+exports.create = async (req, res, next) => {
     try {
-        await clientesService.create(nome, sobrenome, email, idade);
-        res.send('Cliente criado com sucesso');
+        const { nome, sobrenome, email, idade } = req.body;
+        const [result] = await pool.query('INSERT INTO clientes (nome, sobrenome, email, idade) VALUES (?, ?, ?, ?)', [nome, sobrenome, email, idade]);
+        res.status(201).json({ id: result.insertId });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erro ao criar cliente' });
+        next(err);
     }
 };
 
-exports.update = async (req, res) => {
-    const id = parseInt(req.params.id);
-    const { nome, sobrenome, email, idade } = req.body;
+// Atualizar cliente
+exports.update = async (req, res, next) => {
     try {
-        await clientesService.update(id, nome, sobrenome, email, idade);
-        res.send('Cliente atualizado com sucesso');
+        const { nome, sobrenome, email, idade } = req.body;
+        await pool.query('UPDATE clientes SET nome = ?, sobrenome = ?, email = ?, idade = ? WHERE id = ?', [nome, sobrenome, email, idade, req.params.id]);
+        res.sendStatus(204);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erro ao atualizar cliente' });
+        next(err);
     }
 };
 
-exports.remove = async (req, res) => {
-    const id = parseInt(req.params.id);
+// Deletar cliente
+exports.delete = async (req, res, next) => {
     try {
-        await clientesService.remove(id);
-        res.send('Cliente removido com sucesso');
+        await pool.query('DELETE FROM clientes WHERE id = ?', [req.params.id]);
+        res.sendStatus(204);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erro ao remover cliente' });
+        next(err);
     }
 };
