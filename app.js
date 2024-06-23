@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const createError = require('http-errors');
-const pool = require('./db'); // Arquivo para configuração do pool de conexões
+const pool = require('./configs/db'); // Arquivo para configuração do pool de conexões
 const indexRouter = require('./routes/index');
 const clientesRouter = require('./routes/clientes');
 const produtosRouter = require('./routes/produtos');

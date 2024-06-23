@@ -1,4 +1,4 @@
-const pool = require('../db');
+const pool = require('../configs/db');
 
 // Obter todos os produtos
 exports.getAll = async (req, res, next) => {
